@@ -9,6 +9,7 @@ function App() {
   const [userName, setUserName] = useState("");
   const [selectedQuiz, setSelectedQuiz] = useState(null);
   const [currentQuestion, setCurrentQuestion] = useState(0);
+  const [answers, setAnswers] = useState({});
   const [score, setScore] = useState(0);
   const [isFinished, setIsFinished] = useState(false);
   const [wrongAnswers, setWrongAnswers] = useState([]);
@@ -111,6 +112,7 @@ function App() {
     setShuffledQuestions(questionsWithShuffledOptions);
     setCurrentQuestion(0);
     setScore(0);
+    setAnswers({});
     setWrongAnswers([]);
     setIsFinished(false);
     setShowConfetti(false);
@@ -126,33 +128,34 @@ function App() {
     }
   }
 
-  function handleAnswer(option) {
-    const questionNow = shuffledQuestions[currentQuestion];
-    const isCorrect = option === questionNow.answer;
+    function handleAnswer(option) {
+  const questionNow = shuffledQuestions[currentQuestion];
+  const isCorrect = option === questionNow.answer;
 
-    if (isCorrect) {
-      const newScore = score + 1;
-      setScore(newScore);
+  const alreadyAnswered = answers[currentQuestion];
 
-      if (currentQuestion + 1 < shuffledQuestions.length) {
-        setCurrentQuestion(currentQuestion + 1);
-        setTimeLeft(selectedQuiz.timePerQuestion || 15);
-      } else {
-        finishQuiz(newScore);
-      }
-    } else {
-      setWrongAnswers([
-        ...wrongAnswers,
-        {
-          question: questionNow.question,
-          yourAnswer: option,
-          correctAnswer: questionNow.answer,
-        },
-      ]);
+  const newAnswers = {
+    ...answers,
+    [currentQuestion]: option,
+  };
 
-      goNextQuestion();
-    }
+  setAnswers(newAnswers);
+
+  let newScore = score;
+
+  if (!alreadyAnswered && isCorrect) {
+    newScore = score + 1;
+    setScore(newScore);
   }
+
+  if (currentQuestion + 1 < shuffledQuestions.length) {
+    setCurrentQuestion(currentQuestion + 1);
+    setTimeLeft(selectedQuiz.timePerQuestion || 15);
+  } else {
+    finishQuiz(newScore);
+  }
+}
+  
 
   function handleTimeUp() {
     const questionNow = shuffledQuestions[currentQuestion];
@@ -232,6 +235,7 @@ function App() {
     setSelectedQuiz(null);
     setCurrentQuestion(0);
     setScore(0);
+    setAnswers({});
     setIsFinished(false);
     setWrongAnswers([]);
     setShuffledQuestions([]);
