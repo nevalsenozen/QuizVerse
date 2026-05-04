@@ -119,6 +119,28 @@ function App() {
     setTimeLeft(quiz.timePerQuestion || 15);
   }
 
+  function calculateWrongAnswersAndScore(answersObj, questions) {
+    let correctCount = 0;
+    const wrongs = [];
+
+    questions.forEach((question, index) => {
+      const userAnswer = answersObj[index];
+      const isCorrect = userAnswer === question.answer;
+
+      if (isCorrect) {
+        correctCount++;
+      } else if (userAnswer) {
+        wrongs.push({
+          question: question.question,
+          yourAnswer: userAnswer,
+          correctAnswer: question.answer,
+        });
+      }
+    });
+
+    return { correctCount, wrongs };
+  }
+
   function goNextQuestion() {
     if (currentQuestion + 1 < shuffledQuestions.length) {
       setCurrentQuestion(currentQuestion + 1);
@@ -128,52 +150,43 @@ function App() {
     }
   }
 
-    function handleAnswer(option) {
-  const questionNow = shuffledQuestions[currentQuestion];
-  const isCorrect = option === questionNow.answer;
+  function handleAnswer(option) {
+    const questionNow = shuffledQuestions[currentQuestion];
+    const alreadyAnswered = answers[currentQuestion];
 
-  const alreadyAnswered = answers[currentQuestion];
+    const newAnswers = {
+      ...answers,
+      [currentQuestion]: option,
+    };
 
-  const newAnswers = {
-    ...answers,
-    [currentQuestion]: option,
-  };
+    setAnswers(newAnswers);
 
-  setAnswers(newAnswers);
-
-  let newScore = score;
-
-  if (!alreadyAnswered && isCorrect) {
-    newScore = score + 1;
-    setScore(newScore);
+    if (currentQuestion + 1 < shuffledQuestions.length) {
+      setCurrentQuestion(currentQuestion + 1);
+      setTimeLeft(selectedQuiz.timePerQuestion || 15);
+    } else {
+      const { correctCount, wrongs } = calculateWrongAnswersAndScore(
+        newAnswers,
+        shuffledQuestions
+      );
+      finishQuiz(correctCount, wrongs);
+    }
   }
-
-  if (currentQuestion + 1 < shuffledQuestions.length) {
-    setCurrentQuestion(currentQuestion + 1);
-    setTimeLeft(selectedQuiz.timePerQuestion || 15);
-  } else {
-    finishQuiz(newScore);
-  }
-}
   
 
   function handleTimeUp() {
     const questionNow = shuffledQuestions[currentQuestion];
-
-    setWrongAnswers((prevWrongAnswers) => [
-      ...prevWrongAnswers,
-      {
-        question: questionNow.question,
-        yourAnswer: "Süre doldu",
-        correctAnswer: questionNow.answer,
-      },
-    ]);
+    const newAnswers = { ...answers };
 
     if (currentQuestion + 1 < shuffledQuestions.length) {
       setCurrentQuestion((prev) => prev + 1);
       setTimeLeft(selectedQuiz.timePerQuestion || 15);
     } else {
-      finishQuiz(score);
+      const { correctCount, wrongs } = calculateWrongAnswersAndScore(
+        newAnswers,
+        shuffledQuestions
+      );
+      finishQuiz(correctCount, wrongs);
     }
   }
 
@@ -200,8 +213,10 @@ function App() {
     setLeaderboard(updatedLeaderboard);
   }
 
-  function finishQuiz(finalScore) {
+  function finishQuiz(finalScore, wrongs) {
     setIsFinished(true);
+    setScore(finalScore);
+    setWrongAnswers(wrongs);
     saveLeaderboard(finalScore);
 
     if (finalScore >= 9) {
@@ -244,7 +259,9 @@ function App() {
   }
 
   function restartQuiz() {
-    startQuiz(selectedQuiz);
+    if (selectedQuiz) {
+      startQuiz(selectedQuiz);
+    }
   }
 
   function goPreviousQuestion() {
