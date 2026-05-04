@@ -1,6 +1,8 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import Confetti from "react-confetti";
 import quizzes from "./data/quizzes";
+import correctSound from "./assets/sounds/correct.mp3";
+import wrongSound from "./assets/sounds/wrong.mp3";
 import "./App.css";
 
 function App() {
@@ -18,6 +20,10 @@ function App() {
   const [leaderboard, setLeaderboard] = useState([]);
   const [timeLeft, setTimeLeft] = useState(15);
   const [showConfetti, setShowConfetti] = useState(false);
+
+  // Sound effects
+  const correctAudio = useRef(new Audio(correctSound));
+  const wrongAudio = useRef(new Audio(wrongSound));
 
   const categories = ["Tümü", "Dizi", "Film", "Kitap"];
 
@@ -152,7 +158,7 @@ function App() {
 
   function handleAnswer(option) {
     const questionNow = shuffledQuestions[currentQuestion];
-    const alreadyAnswered = answers[currentQuestion];
+    const isCorrect = option === questionNow.answer;
 
     const newAnswers = {
       ...answers,
@@ -160,6 +166,15 @@ function App() {
     };
 
     setAnswers(newAnswers);
+
+    // Play sound effects
+    if (isCorrect) {
+      correctAudio.current.currentTime = 0;
+      correctAudio.current.play().catch(() => {});
+    } else {
+      wrongAudio.current.currentTime = 0;
+      wrongAudio.current.play().catch(() => {});
+    }
 
     if (currentQuestion + 1 < shuffledQuestions.length) {
       setCurrentQuestion(currentQuestion + 1);

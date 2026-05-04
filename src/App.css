@@ -498,7 +498,7 @@ button:hover {
   flex-wrap: wrap;
 }
 
-@media (max-width: 800px) {
+@media (max-width: 768px) {
   .app {
     padding: 24px 14px;
   }
@@ -529,22 +529,96 @@ button:hover {
     height: 190px;
   }
 
+  /* Mobile layout reordering - uses flexbox with order property */
   .question-page {
-    grid-template-columns: 1fr;
+    display: flex;
+    flex-direction: column;
+    grid-template-columns: unset;
     min-height: auto;
+    align-items: stretch;
+    gap: 16px;
+    padding-top: 24px;
+    background: rgba(255, 255, 255, 0.86);
+    backdrop-filter: blur(16px);
+    padding: 20px;
+    border-radius: 32px;
+    box-shadow: 0 16px 36px rgba(155, 126, 222, 0.16);
+    border-top: 8px solid var(--primary);
   }
 
+  /* display: contents removes the question-box wrapper,
+     allowing its children to become direct flex children for reordering */
+  .question-box {
+    display: contents;
+  }
+
+  .back-btn {
+    order: -1;
+    margin-bottom: 8px;
+  }
+
+  /* 1. Title */
+  .question-box h2 {
+    order: 1;
+    margin-bottom: 12px;
+  }
+
+  /* 2. Step progress (question numbers) */
+  .step-progress {
+    order: 2;
+  }
+
+  /* 3. Progress bar */
+  .progress {
+    order: 3;
+    margin-bottom: 12px;
+  }
+
+  /* 4. Greeting message */
+  .hello-user {
+    order: 4;
+    margin-bottom: 8px;
+  }
+
+  /* 5. Timer */
+  .timer-box {
+    order: 5;
+    margin-bottom: 16px;
+  }
+
+  .question-count {
+    order: 10;
+    display: none;
+  }
+
+  /* 6. Question image - positioned after timer, before question text */
   .question-image {
-    padding: 10px;
+    order: 6;
+    background: transparent;
+    padding: 0;
+    box-shadow: none;
+    border-radius: 0;
+    margin-bottom: 16px;
   }
 
   .question-image img {
-    max-height: 280px;
+    width: 100%;
     height: auto;
+    max-height: 280px;
+    object-fit: cover;
+    border-radius: 12px;
+    display: block;
   }
 
-  .question-box {
-    padding: 20px;
+  /* 7. Question text */
+  .question-box h3 {
+    order: 7;
+    margin-bottom: 16px;
+  }
+
+  /* 8. Options buttons */
+  .options {
+    order: 8;
   }
 
   .options button {
