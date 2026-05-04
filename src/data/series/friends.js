@@ -1,4 +1,4 @@
-import friendsImg from "../assets/img/friends.jpg";
+import friendsImg from "../../assets/img/friends.jpg";
 
 
 const friendsQuiz = {
