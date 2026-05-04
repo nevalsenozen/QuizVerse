@@ -1,3 +1,6 @@
+import friendsImg from "/assets/img/friends.jpg";
+
+
 const friendsQuiz = {
   id: 1,
   title: "Friends Quiz",
