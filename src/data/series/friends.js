@@ -1,4 +1,4 @@
-import friendsImg from "/assets/img/friends.jpg";
+import friendsImg from "../assets/img/friends.jpg";
 
 
 const friendsQuiz = {
@@ -8,7 +8,7 @@ const friendsQuiz = {
   description: "Gerçek bir Friends izleyicisi misin?",
   difficulty: "Kolay",
   timePerQuestion: 15,
-  image: "src/assets/img/friends.jpg",
+  image: friendsImg,
   theme: {
   primary: "#9B7EDE",
   secondary: "#F3A6C8",
