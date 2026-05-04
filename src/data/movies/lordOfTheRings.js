@@ -1,3 +1,6 @@
+import lordOfTheRingsImg from "../../assets/img/lordOfTheRings.jpg";
+
+
 const lordOfTheRingsQuiz = {
   id: 5,
   title: "Yüzüklerin Efendisi Quiz",
@@ -5,8 +8,7 @@ const lordOfTheRingsQuiz = {
   description: "Orta Dünya bilgini test ediyoruz!",
   difficulty: "Orta",
   timePerQuestion: 15,
-  image:
-    "https://upload.wikimedia.org/wikipedia/en/8/87/Ringstrilogyposter.jpg",
+  image: lordOfTheRingsImg,
   theme: {
     primary: "#4B3A2A",
     secondary: "#B08D57",

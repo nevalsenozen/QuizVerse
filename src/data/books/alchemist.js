@@ -1,3 +1,6 @@
+import alchemistImg from "../../assets/img/alchemist.jpg";
+
+
 const alchemistQuiz = {
   id: 7,
   title: "Simyacı Quiz",
@@ -5,8 +8,7 @@ const alchemistQuiz = {
   description: "Santiago'nun yolculuğunu ne kadar biliyorsun?",
   difficulty: "Orta",
   timePerQuestion: 15,
-  image:
-    "https://upload.wikimedia.org/wikipedia/en/c/c4/TheAlchemist.jpg",
+  image: alchemistImg,
   theme: {
     primary: "#C9A227",
     secondary: "#F5DEB3",

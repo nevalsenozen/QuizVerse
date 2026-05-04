@@ -1,3 +1,7 @@
+import breakingBadImg from "../../assets/img/breakingbad.jpg";
+
+
+
 const breakingBadQuiz = {
   id: 2,
   title: "Breaking Bad Quiz",
@@ -5,7 +9,7 @@ const breakingBadQuiz = {
   description: "Heisenberg evrenine ne kadar hakimsin?",
   difficulty: "Orta",
   timePerQuestion: 15,
-  image: "src/assets/img/breakingbad.jpg",
+  image: breakingBadImg,
   theme: {
   primary: "#2E7D32",
   secondary: "#A5D6A7",

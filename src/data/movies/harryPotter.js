@@ -1,3 +1,7 @@
+import harryPotterImg from "../../assets/img/harrypotter.jpg";
+
+
+
 const harryPotterQuiz = {
   id: 3,
   title: "Harry Potter Quiz",
@@ -5,7 +9,7 @@ const harryPotterQuiz = {
   description: "Hogwarts bilgini test ediyoruz!",
   difficulty: "Orta",
   timePerQuestion: 15,
-  image: "src/assets/img/harrypotter.jpg",
+  image: harryPotterImg,
   theme: {
   primary: "#6B4A35",
   secondary: "#C8A27A",

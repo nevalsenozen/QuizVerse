@@ -1,3 +1,6 @@
+import littlePrinceImg from "../../assets/img/kucukprens.jpg";
+
+
 const littlePrinceQuiz = {
   id: 4,
   title: "Küçük Prens Quiz",
@@ -5,7 +8,7 @@ const littlePrinceQuiz = {
   description: "Küçük Prens’i gerçekten okudun mu?",
   difficulty: "Kolay",
   timePerQuestion: 15,
-  image: "src/assets/img/kucukprens.jpg",
+  image: littlePrinceImg,
   theme: {
   primary: "#4A90C2",
   secondary: "#BFE6FF",
